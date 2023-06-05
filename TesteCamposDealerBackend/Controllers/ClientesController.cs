@@ -73,7 +73,7 @@ namespace TesteCamposDealerBackend.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(200);
         }
 
         // POST: api/Customers
@@ -105,10 +105,18 @@ namespace TesteCamposDealerBackend.Controllers
                 return NotFound();
             }
 
-            _context.Clientes.Remove(customer);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Clientes.Remove(customer);
+                await _context.SaveChangesAsync();
 
-            return NoContent();
+                return Ok(200);
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
+
         }
 
         private bool CustomerExists(int id)
